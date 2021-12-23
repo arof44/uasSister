@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  php-apache-environment:
+    image: arof44/uas
+    container_name: php-apache
+    depends_on:
+      - db
+    volumes:
+      - ./php/src:/var/www/html/
+    ports:
+      - 8000:80
+    networks:
+      - backend
+
+  db:
+    container_name: db
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Admin123_
+      MYSQL_DATABASE: uas
+
+    ports:
+      - "3306:3306"
+    volumes:
+      -db:/var/lib/mysql
+      -./uas.sql:/docker-entrypoint-initdb.d/uas.sql
+    networks:
+      - backend
+
